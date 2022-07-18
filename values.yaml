@@ -1,0 +1,54 @@
+amf:
+  ngapIpList: 192.168.2.2
+  registerIPv4: 192.168.2.2
+  bindingIPv4: 192.168.2.2
+
+ausf:
+  registerIPv4: 192.168.2.3
+  bindingIPv4: 192.168.2.3
+
+nrf:
+  ipv4Addr: 192.168.2.4
+
+nssf:
+  registerIPv4: 192.168.2.5
+  bindingIPv4: 192.168.2.5
+
+pcf:
+  registerIPv4: 192.168.2.6
+  bindingIPv4: 192.168.2.6
+
+smf:
+  registerIPv4: 192.168.2.7
+  bindingIPv4: 192.168.2.7
+  pfcp:
+    addr: 192.168.2.7
+
+udm:
+  registerIPv4: 192.168.2.8
+  bindingIPv4: 192.168.2.8
+
+udr:
+  registerIPv4: 192.168.2.9
+  bindingIPv4: 192.168.2.9
+
+ulcl:
+  pfcp:
+    addr: 192.168.2.10
+  gtpu:
+    addr: 192.168.2.10
+
+upf1:
+  pfcp:
+    addr: 192.168.2.11
+  gtpu:
+    addr: 192.168.2.11
+
+upf2:
+  pfcp:
+    addr: 192.168.166.12
+  gtpu:
+    addr: 192.168.166.12
+
+ueransim:
+  bindingIPv4: 192.168.166.11

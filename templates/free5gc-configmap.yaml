@@ -1,0 +1,77 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: free5gc
+data:
+  free5GC.conf: |
+    db_uri: mongodb://mongo.default.svc.cluster.local/free5GC
+
+    #all logging levels
+    #panic
+    #fatal
+    #error
+    #warn
+    #info
+    #debug
+    #trace
+    logger:
+    # network function
+      AMF:
+        debugLevel: debug
+        ReportCaller: false
+      SMF:
+        debugLevel: debug
+        ReportCaller: false
+      UDR:
+        debugLevel: debug
+        ReportCaller: false
+      UDM:
+        debugLevel: debug
+        ReportCaller: false
+      NRF:
+        debugLevel: debug
+        ReportCaller: false
+      PCF:
+        debugLevel: debug
+        ReportCaller: false
+      AUSF:
+        debugLevel: debug
+        ReportCaller: false
+      N3IWF:
+        debugLevel: info
+        ReportCaller: false
+    # library
+      NAS:
+        debugLevel: info
+        ReportCaller: false
+      FSM:
+        debugLevel: info
+        ReportCaller: false
+      NGAP:
+        debugLevel: debug
+        ReportCaller: false
+      NamfComm:
+        debugLevel: info
+        ReportCaller: false
+      NamfEventExposure:
+        debugLevel: info
+        ReportCaller: false
+      NsmfPDUSession:
+        debugLevel: info
+        ReportCaller: false
+      NudrDataRepository:
+        debugLevel: info
+        ReportCaller: false
+      OpenApi:
+        debugLevel: info
+        ReportCaller: false
+      Aper:
+        debugLevel: info
+        ReportCaller: false
+      CommonConsumerTest:
+        debugLevel: info
+        ReportCaller: false
+    # webui
+      WEBUI:
+        debugLevel: info
+        ReportCaller: false

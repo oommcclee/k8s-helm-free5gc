@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: smf
+  labels:
+    app: smf
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: smf
+  template:
+    metadata:
+      labels:
+        app: smf
+      annotations:
+        cni.projectcalico.org/ipAddrs: "[\"{{ .Values.smf.bindingIPv4 }}\"]"
+    spec:
+      containers:
+        - name: smf
+          image: ycchan5566/free5gc:v3.0.6
+          imagePullPolicy: IfNotPresent
+          command: ["/bin/bash"]
+          args: ["-c", "./bin/smf"]
+          stdin: true
+          tty: true
+          volumeMounts:
+            - name: free5gc-config
+              mountPath: /root/free5gc/config/free5GC.conf
+              subPath: free5GC.conf
+            - name: smf-config
+              mountPath: /root/free5gc/config/smfcfg.yaml
+              subPath: smfcfg.yaml
+            - name: uerouting-config
+              mountPath: /root/free5gc/config/uerouting.yaml
+              subPath: uerouting.yaml
+      #nodeSelector: 
+      #  type: core
+      volumes:
+        - name: free5gc-config
+          configMap:
+            name: free5gc
+        - name: smf-config
+          configMap:
+            name: smf
+        - name: uerouting-config
+          configMap:
+            name: uerouting

@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: upf1
+  labels:
+    app: upf1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: upf1
+  template:
+    metadata:
+      labels:
+        app: upf1
+      annotations:
+        cni.projectcalico.org/ipAddrs: "[\"{{ .Values.upf1.pfcp.addr }}\"]"
+    spec:
+      containers:
+        - name: upf1
+          securityContext:
+            privileged: true
+          image: ycchan5566/free5gc:v3.0.6
+          imagePullPolicy: IfNotPresent
+          command: ["/bin/bash"]
+          # args: ["-c", "/root/setup.sh && ethtool -K net1 tx off && cd src/upf/build && ./bin/free5gc-upfd"]
+          args: ["-c", "cd NFs/upf/build && sysctl -w net.ipv4.ip_forward=1 && iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE && iptables -A FORWARD -p tcp -m tcp --tcp-flags SYN,RST SYN -j TCPMSS --set-mss 1400 && ./bin/free5gc-upfd -f ../config/upfcfg.yaml"]
+          stdin: true
+          tty: true
+          volumeMounts:
+            - name: free5gc-config
+              mountPath: /root/free5gc/config/free5GC.conf
+              subPath: free5GC.conf
+            - name: upf1-config
+              mountPath: /root/free5gc/NFs/upf/config/upfcfg.yaml
+              subPath: upfcfg.yaml
+      #nodeSelector: 
+      #  type: core
+      volumes:
+        - name: free5gc-config
+          configMap:
+            name: free5gc
+        - name: upf1-config
+          configMap:
+            name: upf1

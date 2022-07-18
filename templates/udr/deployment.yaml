@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: udr
+  labels:
+    app: udr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: udr
+  template:
+    metadata:
+      labels:
+        app: udr
+      annotations:
+        cni.projectcalico.org/ipAddrs: "[\"{{ .Values.udr.bindingIPv4 }}\"]"
+    spec:
+      containers:
+        - name: udr
+          image: ycchan5566/free5gc:v3.0.6
+          imagePullPolicy: IfNotPresent
+          command: ["/bin/bash"]
+          args: ["-c", "./bin/udr"]
+          stdin: true
+          tty: true
+          volumeMounts:
+            - name: free5gc-config
+              mountPath: /root/free5gc/config/free5GC.conf
+              subPath: free5GC.conf
+            - name: udr-config
+              mountPath: /root/free5gc/config/udrcfg.yaml
+              subPath: udrcfg.yaml
+      #nodeSelector: 
+      #  type: core
+      volumes:
+        - name: free5gc-config
+          configMap:
+            name: free5gc
+        - name: udr-config
+          configMap:
+            name: udr
